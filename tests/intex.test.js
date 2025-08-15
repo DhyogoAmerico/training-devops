@@ -1,5 +1,5 @@
-import request from 'supertest';
-import { app, server } from '../src/index.js';
+const request = require('supertest');
+const { app, server } = require('../src/index.js');
 
 afterAll(() => {
   server.close();
