@@ -1,0 +1,39 @@
+# .github/workflows/ci-pipeline.yml
+name: CI Pipeline
+
+# Gatilho: Este workflow roda a cada push ou pull request na branch 'master'
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# Tarefas a serem executadas
+jobs:
+  # Nome da tarefa
+  build-and-test:
+    # Máquina virtual onde a tarefa vai rodar
+    runs-on: ubuntu-latest
+
+    steps:
+    # Passo 1: Clona o seu repositório para dentro da máquina virtual
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Passo 2: Configura o ambiente Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' # Use uma versão LTS do Node
+
+    # Passo 3: Instala as dependências do projeto
+    - name: Install dependencies
+      run: npm install
+
+    # Passo 4: Roda o Linter para garantir a qualidade do código
+    - name: Run linter
+      run: npm run lint
+
+    # Passo 5: Roda os testes automatizados
+    - name: Run tests
+      run: npm test
